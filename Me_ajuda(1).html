@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Me ajuda!</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f4f7fb;color:#172033}
+header{background:#2563eb;color:white;padding:18px;text-align:center;font-size:26px;font-weight:bold}
+.container{max-width:520px;margin:25px auto;padding:20px}
+.card{background:white;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 4px 14px #0001}
+h2{margin-top:0}
+input,button,textarea{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #ccd3df;font-size:16px}
+button{background:#2563eb;color:white;border:0;font-weight:bold;cursor:pointer}
+button.secondary{background:#64748b}
+.screen{display:none}.screen.active{display:block}
+.menu button{margin-bottom:10px}
+.chat{height:250px;overflow:auto;background:#f1f5f9;padding:12px;border-radius:12px}
+.msg{padding:9px 12px;border-radius:12px;margin:7px 0;max-width:80%}
+.me{background:#dbeafe;margin-left:auto}.other{background:#e2e8f0}
+.small{text-align:center;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+<header>📚 Me ajuda!</header>
+
+<div class="container">
+  <section id="login" class="screen active">
+    <div class="card">
+      <h2>Entrar</h2>
+      <p>Entre para estudar e pedir ajuda.</p>
+      <input id="loginEmail" type="email" placeholder="E-mail">
+      <input id="loginPass" type="password" placeholder="Senha">
+      <button onclick="show('home')">Entrar</button>
+      <button class="secondary" onclick="show('cadastro')">Criar cadastro</button>
+      <p class="small">Protótipo demonstrativo.</p>
+    </div>
+  </section>
+
+  <section id="cadastro" class="screen">
+    <div class="card">
+      <h2>Cadastro</h2>
+      <input placeholder="Nome completo">
+      <input type="email" placeholder="E-mail">
+      <input type="password" placeholder="Senha">
+      <button onclick="show('home')">Cadastrar</button>
+      <button class="secondary" onclick="show('login')">Voltar</button>
+    </div>
+  </section>
+
+  <section id="home" class="screen">
+    <div class="card">
+      <h2>Início 👋</h2>
+      <p>Bem-vindo ao <b>Me ajuda!</b></p>
+      <div class="menu">
+        <button onclick="show('pedir')">🙋 Pedir ajuda</button>
+        <button onclick="show('encontrar')">🔎 Encontrar aluno</button>
+        <button onclick="show('chat')">💬 Chat</button>
+        <button class="secondary" onclick="show('login')">Sair</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="pedir" class="screen">
+    <div class="card">
+      <h2>🙋 Pedir ajuda</h2>
+      <input placeholder="Matéria (ex.: Matemática)">
+      <textarea placeholder="Descreva sua dúvida..." rows="5"></textarea>
+      <button onclick="alert('Pedido de ajuda enviado!')">Enviar pedido</button>
+      <button class="secondary" onclick="show('home')">Voltar</button>
+    </div>
+  </section>
+
+  <section id="encontrar" class="screen">
+    <div class="card">
+      <h2>🔎 Encontrar aluno</h2>
+      <input placeholder="Procure pelo nome ou matéria">
+      <button onclick="alert('Busca realizada!')">Pesquisar</button>
+      <p>👩 Ana — Matemática</p>
+      <p>👨 João — Física</p>
+      <p>👩 Maria — Português</p>
+      <button class="secondary" onclick="show('home')">Voltar</button>
+    </div>
+  </section>
+
+  <section id="chat" class="screen">
+    <div class="card">
+      <h2>💬 Chat</h2>
+      <div class="chat" id="chatBox">
+        <div class="msg other">Olá! Posso te ajudar?</div>
+      </div>
+      <input id="message" placeholder="Digite sua mensagem..." onkeydown="if(event.key==='Enter')send()">
+      <button onclick="send()">Enviar</button>
+      <button class="secondary" onclick="show('home')">Voltar</button>
+    </div>
+  </section>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function send(){
+  const input=document.getElementById('message');
+  const text=input.value.trim();
+  if(!text)return;
+  const box=document.getElementById('chatBox');
+  box.innerHTML += '<div class="msg me">'+escapeHtml(text)+'</div>';
+  input.value='';
+  box.scrollTop=box.scrollHeight;
+}
+function escapeHtml(t){
+  return t.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+</script>
+</body>
+</html>
